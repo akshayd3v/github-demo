@@ -5,9 +5,10 @@ let Customers = sequelize.define(
   "customers",
   {
     id: {
+      type:  Sequelize.DataTypes.UUID,
+     
       primaryKey: true,
-      autoIncrement: true,
-      type: Sequelize.DataTypes.INTEGER,
+      
     },
     email: {
       type: Sequelize.DataTypes.STRING,
@@ -17,6 +18,15 @@ let Customers = sequelize.define(
       type: Sequelize.DataTypes.STRING,
       defaultValue: null,
     },
+    age:{
+      type: Sequelize.DataTypes.INTEGER,
+      defaultValue: null,
+    },
+    gender:
+    {
+     type:Sequelize.DataTypes.ENUM({
+      values: ['Male','Female','Others']})
+    }
   },
   {
     tableName: "Customers",
