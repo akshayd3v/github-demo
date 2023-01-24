@@ -15,9 +15,9 @@ jobs:
 
     - name: Install Microsoft SBOM tool and sbom-to-cyclonedx
       run: |
-        wget https://github.com/Microsoft/sarif-sdk/releases/download/v2.1.0/Microsoft.Sarif.SDK.2.1.0.nupkg
-        unzip Microsoft.Sarif.SDK.2.1.0.nupkg
-        sudo mv Microsoft.Sarif.SDK.2.1.0/tools/SBOM /usr/local/bin/sbom
+        wget https://github.com/Microsoft/sarif-sdk/releases/download/v3.1.0/Microsoft.Sarif.SDK.3.1.0.nupkg
+        unzip Microsoft.Sarif.SDK.3.1.0.nupkg
+        sudo mv Microsoft.Sarif.SDK.3.1.0/tools/SBOM /usr/local/bin/sbom
         chmod +x /usr/local/bin/sbom
         npm install -g sbom-to-cyclonedx
 
