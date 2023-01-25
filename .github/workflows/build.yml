@@ -1,33 +1,27 @@
-name: Generate SBOM
-
+name: Create SBOM
 on:
   push:
     branches:
-      - main
-
+      - master
 jobs:
-  generate-sbom:
+  create-sbom:
     runs-on: ubuntu-latest
-
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
-
     - name: Install Microsoft SBOM tool
       run: |
-        wget https://github.com/Microsoft/sarif-sdk/releases/download/v3.1.0/Microsoft.Sarif.SDK.3.1.0.nupkg
-        unzip Microsoft.Sarif.SDK.3.1.0.nupkg
-        sudo mv Microsoft.Sarif.SDK.3.1.0/tools/SBOM /usr/local/bin/sbom
-        chmod +x /usr/local/bin/sbom
-
-    - name: Generate SBOM
-      run: sbom generate -o sbom.json
-
-    - name: Commit and push SBOM
-      run: |
-        git config --local user.email "github-actions@example.com"
-        git config --local user.name "GitHub Actions"
-        git add sbom.json
-        git commit -m "Generate SBOM"
-        git push origin main
-
+        sudo apt-get update
+        sudo apt-get install -y apt-transport-https
+        curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
+        sudo install -o root -g root -m 644 microsoft.gpg /etc/apt/trusted.gpg.d/
+        sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-ubuntu-$(lsb_release -cs)-prod $(lsb_release -cs) main" > /etc/apt/sources.list.d/microsoft.list'
+        sudo apt-get update
+        sudo apt-get install -y sbom
+    - name: Create SBOM
+      run: sbom --json > sbom.json
+    - name: Upload SBOM to GitHub
+      uses: actions/upload-artifact@v2
+      with:
+        name: sbom
+        path: sbom.json
