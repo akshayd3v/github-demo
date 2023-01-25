@@ -1,8 +1,7 @@
 name: Create SBOM
 on:
   push:
-    branches:
-      - master
+   
 jobs:
   create-sbom:
     runs-on: windows-latest
